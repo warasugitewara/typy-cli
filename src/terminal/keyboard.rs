@@ -210,6 +210,7 @@ fn handle_correct_char(
         ))
         .context("Failed to move cursor")?;
     print!("{}", c);
+    stdout.flush().context("Failed to flush stdout")?;
     Ok(())
 }
 
@@ -231,6 +232,7 @@ fn handle_incorrect_char(
         ))
         .context("Failed to move cursor")?;
     print!("{}", c);
+    stdout.flush().context("Failed to flush stdout")?;
     Ok(())
 }
 
@@ -263,6 +265,7 @@ fn add_incorrect_char(
     stdout.execute(SetAttribute(Attribute::Reset))?;
     stdout.execute(SetForegroundColor(theme.missing))?;
     print!("{}", after);
+    stdout.flush().context("Failed to flush stdout")?;
 
     let new_line = format!("{}{}{}", before, c, after);
     game.list[game.player.position_y as usize] =

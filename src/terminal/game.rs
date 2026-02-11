@@ -4,7 +4,7 @@ use crossterm::cursor::{self, SetCursorStyle};
 use crossterm::event::poll;
 use crossterm::{
     cursor::MoveTo,
-    event::{read, Event, KeyEvent},
+    event::{read, Event, KeyEvent, KeyEventKind},
     style::{ResetColor, SetForegroundColor},
     terminal::{disable_raw_mode, enable_raw_mode, Clear, ClearType},
     ExecutableCommand,
@@ -142,9 +142,15 @@ pub fn run(mode: Mode, theme: ThemeColors) -> Result<()> {
 
         if poll(Duration::from_millis(5)).context("Failed to poll for events")? {
             if let Ok(Event::Key(KeyEvent {
-                code, modifiers, ..
+                code, modifiers, kind,
+                ..
             })) = read().context("Failed to read event")
             {
+                // Only process key press events, ignore other event kinds
+                if kind != KeyEventKind::Press {
+                    continue;
+                }
+                
                 if let Some(()) = super::close_typy(&code, &modifiers) {
                     timer_expired.store(true, Ordering::Relaxed);
                     game.quit = true;

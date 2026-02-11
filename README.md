@@ -8,6 +8,11 @@
   </pre>
 </div>
 
+> [!NOTE]
+> **This is a fork of [Pazl27/typy-cli](https://github.com/Pazl27/typy-cli) with Windows double-input fix.**
+> 
+> See [ABOUT.ja.md](./ABOUT.ja.md) for modifications and credits (日本語).
+
 > [!WARNING]  
 > When the terminal is too small it can lead to strange behavior.
 
